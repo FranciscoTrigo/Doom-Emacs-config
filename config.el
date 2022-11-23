@@ -79,3 +79,11 @@
 ;; Auto-save every 60 seconds
 (setq auto-save-visited-interval 60)
 (auto-save-visited-mode +1)
+
+;; Enable showing a word count in the modeline. Only works in Markdown, GFM and Org by default
+(setq doom-modeline-enable-word-count t)
+
+;; Enable logging of done ORG task and lof stuff into the LOGBOOK drawer
+(after! org
+  (setq org-log-done t)
+  (setq org-log-drawer t))
