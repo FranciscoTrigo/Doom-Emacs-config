@@ -87,3 +87,16 @@
 (after! org
   (setq org-log-done t)
   (setq org-log-drawer t))
+
+;; Disable electric mode for weird indents in org-mode
+(add-hook! org-mode (electric-indent-local-mode -1))
+
+;; Org mode capture templates
+(setq org-capture-templates
+      '(("t" "TODO entry" entry (file+headline "~/orgmode/todo.org" "Inbox")
+               "* TODO %?\n - Date: %T %i %a")
+        ("y" "TODO2" entry (file+headline "~/orgmode/todo.org" "Inbox")
+         "* TODO %?\n - Date: %T")))
+
+
+;; Some custom keyobard shortcuts
