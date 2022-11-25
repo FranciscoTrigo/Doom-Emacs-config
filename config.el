@@ -93,10 +93,16 @@
 
 ;; Org mode capture templates
 (setq org-capture-templates
-      '(("t" "TODO entry" entry (file+headline "~/orgmode/todo.org" "Inbox")
+      '(("T" "TODO with link to here" entry (file+headline "~/orgmode/todo.org" "Inbox")
                "* TODO %?\n - Date: %T %i %a")
-        ("y" "TODO2" entry (file+headline "~/orgmode/todo.org" "Inbox")
-         "* TODO %?\n - Date: %T")))
+        ("t" "TODO entry" entry (file+headline "~/orgmode/todo.org" "Inbox")
+         "* TODO %?\n - Date: %T")
+        ("d" "Dream entry" entry (file+headline "~/orgmode/Personal.org" "Dreams")
+         "* %t \n%?")
+        ("j" "Journal" entry (file+datetree "~/orgmode/journal.org")
+         "* %U %?")
+
+        ))
 
 
 ;; Some custom keyobard shortcuts
