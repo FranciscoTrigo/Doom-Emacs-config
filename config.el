@@ -104,5 +104,10 @@
 
         ))
 
+;; Roam the org
+(after! org
+        (setq org-roam-directory "~/orgmode/")
+        (setq org-roam-index-file "~/orgmode/index.org"))
+
 
 ;; Some custom keyobard shortcuts
