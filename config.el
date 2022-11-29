@@ -109,5 +109,18 @@
         (setq org-roam-directory "~/orgmode/")
         (setq org-roam-index-file "~/orgmode/index.org"))
 
+;; Different colors for org-roam and org links
+;;(custom-set-faces
+  ;;      '((org-roam-link org-roam-link-current)
+    ;;      :foreground "#e24888" :underline t))
 
 ;; Some custom keyobard shortcuts
+;; exmaple:
+;; (map! "<C-left>" #'something)
+(map! "C-c n l" #'org-roam-buffer-toggle
+      "C-c n f" #'org-roam-node-find
+      "C-c n i" #'org-roam-node-insert
+      "C-c n c" #'org-id-get-create)
+(map! :after evil-org
+      :map evil-org-mode-map
+      :ni "C-<return>" #'org-insert-heading-respect-content)
