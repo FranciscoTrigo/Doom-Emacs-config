@@ -98,7 +98,7 @@
         ("t" "TODO entry" entry (file+headline "~/orgmode/todo.org" "Inbox")
          "* TODO %?\n - Date: %T")
         ("d" "Dream entry" entry (file+headline "~/orgmode/Personal.org" "Dreams")
-         "* %t \n%?")
+         "* %t %?")
         ("j" "Journal" entry (file+datetree "~/orgmode/journal.org")
          "* %U %?")
 
