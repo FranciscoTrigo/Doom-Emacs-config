@@ -9,6 +9,9 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 
+;; Org-journal
+(package! org-journal)
+
 ;; SRCERY THEME
 (package! srcery-theme)
 
