@@ -124,3 +124,7 @@
 (map! :after evil-org
       :map evil-org-mode-map
       :ni "C-<return>" #'org-insert-heading-respect-content)
+;; Org-journal config stuff
+;;(after! org
+  ;;(setq org-journal-dir "~/orgmode/journal/"))
+;;(require 'org-journal)

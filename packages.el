@@ -10,7 +10,7 @@
 ;(package! some-package)
 
 ;; Org-journal
-(package! org-journal)
+;;(package! org-journal)
 
 ;; SRCERY THEME
 (package! srcery-theme)
