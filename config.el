@@ -40,7 +40,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/orgmode/")
+(setq org-directory "~/code/orgmode/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -93,21 +93,21 @@
 
 ;; Org mode capture templates
 (setq org-capture-templates
-      '(("T" "TODO with link to here" entry (file+headline "~/orgmode/todo.org" "Inbox")
+      '(("T" "TODO with link to here" entry (file+headline "~/code/orgmode/todo.org" "Inbox")
                "* TODO %?\n - Date: %T %i %a")
-        ("t" "TODO entry" entry (file+headline "~/orgmode/todo.org" "Inbox")
+        ("t" "TODO entry" entry (file+headline "~/code/orgmode/todo.org" "Inbox")
          "* TODO %?\n - Date: %T")
-        ("d" "Dream entry" entry (file+headline "~/orgmode/Personal.org" "Dreams")
+        ("d" "Dream entry" entry (file+headline "~/code/orgmode/Personal.org" "Dreams")
          "* %t %?")
-        ("j" "Journal" entry (file+datetree "~/orgmode/journal.org")
+        ("j" "Journal" entry (file+datetree "~/code/orgmode/journal.org")
          "* %U %?")
 
         ))
 
 ;; Roam the org
 (after! org
-        (setq org-roam-directory "~/orgmode/")
-        (setq org-roam-index-file "~/orgmode/index.org"))
+        (setq org-roam-directory "~/code/orgmode/")
+        (setq org-roam-index-file "~/code/orgmode/index.org"))
 
 ;; Different colors for org-roam and org links
 ;;(custom-set-faces
@@ -131,5 +131,10 @@
 
 ;; Org-journal config stuff
 ;;(after! org
-  ;;(setq org-journal-dir "~/orgmode/journal/"))
+  ;;(setq org-journal-dir "~/code/orgmode/journal/"))
 ;;(require 'org-journal)
+
+(after! evil
+     (evil-ex-define-cmd "wq" 'doom/save-and-kill-buffer)
+     (evil-ex-define-cmd "q" 'kill-this-buffer)
+)
