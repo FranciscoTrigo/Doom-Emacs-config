@@ -21,8 +21,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Iosevka" :size 14 :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "Iosevka" :size 13))
+(setq doom-font (font-spec :family "Iosevka" :size 18 :weight 'normal)
+      doom-variable-pitch-font (font-spec :family "Iosevka" :size 18))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -92,6 +92,7 @@
 (add-hook! org-mode (electric-indent-local-mode -1))
 
 ;; Org mode capture templates
+(after! org
 (setq org-capture-templates
       '(("T" "TODO with link to here" entry (file+headline "~/code/orgmode/todo.org" "Inbox")
                "* TODO %?\n - Date: %T %i %a")
@@ -101,8 +102,7 @@
          "* %t %?")
         ("j" "Journal" entry (file+datetree "~/code/orgmode/journal.org")
          "* %U %?")
-
-        ))
+        )))
 
 ;; Roam the org
 (after! org
