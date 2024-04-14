@@ -21,8 +21,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Iosevka" :size 18 :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "Iosevka" :size 18))
+(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 18 :weight 'medium))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -93,26 +92,26 @@
 
 ;; Org mode capture templates
 (after! org
-(setq org-capture-templates
-      '(("T" "TODO with link to here" entry (file+headline "~/code/orgmode/todo.org" "Inbox")
-               "* TODO %?\n - Date: %T %i %a")
-        ("t" "TODO entry" entry (file+headline "~/code/orgmode/todo.org" "Inbox")
-         "* TODO %?\n - Date: %T")
-        ("d" "Dream entry" entry (file+headline "~/code/orgmode/Personal.org" "Dreams")
-         "* %t %?")
-        ("j" "Journal" entry (file+datetree "~/code/orgmode/journal.org")
-         "* %U %?")
-        )))
+  (setq org-capture-templates
+        '(("T" "TODO with link to here" entry (file+headline "~/code/orgmode/todo.org" "Inbox")
+           "* TODO %?\n - Date: %T %i %a")
+          ("t" "TODO entry" entry (file+headline "~/code/orgmode/todo.org" "Inbox")
+           "* TODO %?\n - Date: %T")
+          ("d" "Dream entry" entry (file+headline "~/code/orgmode/Personal.org" "Dreams")
+           "* %t %?")
+          ("j" "Journal" entry (file+datetree "~/code/orgmode/journal.org")
+           "* %U %?")
+          )))
 
 ;; Roam the org
 (after! org
-        (setq org-roam-directory "~/code/orgmode/")
-        (setq org-roam-index-file "~/code/orgmode/index.org"))
+  (setq org-roam-directory "~/code/orgmode/")
+  (setq org-roam-index-file "~/code/orgmode/index.org"))
 
 ;; Different colors for org-roam and org links
 ;;(custom-set-faces
-  ;;      '((org-roam-link org-roam-link-current)
-    ;;      :foreground "#e24888" :underline t))
+;;      '((org-roam-link org-roam-link-current)
+;;      :foreground "#e24888" :underline t))
 
 ;; Some custom keyobard shortcuts
 ;; exmaple:
@@ -131,10 +130,10 @@
 
 ;; Org-journal config stuff
 ;;(after! org
-  ;;(setq org-journal-dir "~/code/orgmode/journal/"))
+;;(setq org-journal-dir "~/code/orgmode/journal/"))
 ;;(require 'org-journal)
 
 (after! evil
-     (evil-ex-define-cmd "wq" 'doom/save-and-kill-buffer)
-     (evil-ex-define-cmd "q" 'kill-this-buffer)
-)
+  (evil-ex-define-cmd "wq" 'doom/save-and-kill-buffer)
+  (evil-ex-define-cmd "q" 'kill-this-buffer)
+  )
