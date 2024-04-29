@@ -41,6 +41,8 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/code/orgmode/")
 
+(add-hook 'org-mode-hook
+          (lambda () (org-autolist-mode)))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -137,3 +139,37 @@
   (evil-ex-define-cmd "wq" 'doom/save-and-kill-buffer)
   (evil-ex-define-cmd "q" 'kill-this-buffer)
   )
+
+
+(use-package org-pomodoro
+  :ensure t
+  :commands (org-pomodoro)
+  :config
+  (setq
+   alert-user-configuration (quote ((((:category . "org-pomodoro")) libnotify nil)))
+   ))
+
+(defun yf/pomodoro-bar ()
+  "Produce the string for the current pomodoro counter to display on the menu bar"
+  (let ((prefix (cl-case org-pomodoro-state
+                  (:pomodoro "Pomodoro")
+                  (:overtime "Overtime")
+                  (:short-break "Break")
+                  (:long-break "Long Break"))))
+    (if (and (org-pomodoro-active-p) (> (length prefix) 0))
+        (list prefix (org-pomodoro-format-seconds)) "N/A")))
+
+;; Org roam capture templates
+(setq org-roam-capture-templates
+      '(("m" "main" plain
+         "%?"
+         :if-new (file+head "main/${slug}.org"
+                            "#+title: ${title}\n")
+         :immediate-finish t
+         :unnarrowed t)
+        ("r" "reference" plain "%?"
+         :if-new
+         (file+head "reference/${title}.org" "#+title: ${title}\n")
+         :immediate-finish t
+         :unnarrowed t)
+        ))
