@@ -78,8 +78,12 @@
 
 ;; This is so buffers auto-save
 ;; Auto-save every 60 seconds
-(setq auto-save-visited-interval 60)
+(setq auto-save-visited-interval 15)
 (auto-save-visited-mode +1)
+(setq auto-save-default t
+      make-backup-files t)
+(setq auto-save-interval 15)
+
 
 ;; Enable showing a word count in the modeline. Only works in Markdown, GFM and Org by default
 (setq doom-modeline-enable-word-count t)
@@ -140,6 +144,20 @@
   (evil-ex-define-cmd "q" 'kill-this-buffer)
   )
 
+;; Set attachments to be stored with their org document
+(setq org-attach-id-dir "attachments/")
+
+(after! org-agenda
+  (setq org-agenda-include-diary t))
+
+
+;; Insert org headings at point, not after the current subtree
+(after! org (setq org-insert-heading-respect-content nil))
+;; Enable logging of done task, and logg stuff in the logbock drawer by default
+(after! org
+  (setq org-log-done t)
+  (setq org-log-into-drawer t))
+
 
 (use-package org-pomodoro
   :ensure t
@@ -173,3 +191,10 @@
          :immediate-finish t
          :unnarrowed t)
         ))
+(defun zz/org-reformat-buffer ()
+  (interactive)
+  (when (y-or-n-p "Really format current buffer? ")
+    (let ((document (org-element-interpret-data (org-element-parse-buffer))))
+      (erase-buffer)
+      (insert document)
+      (goto-char (point-min)))))
