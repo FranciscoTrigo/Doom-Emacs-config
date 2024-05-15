@@ -107,6 +107,12 @@
            "* %t %?")
           ("j" "Journal" entry (file+datetree "~/code/orgmode/journal.org")
            "* %U %?")
+          ("G" "Good things" entry (file+headline "~/code/orgmode/feats.org" "Good Things")
+           "** %<%Y> \n*** %<%Y-%m-%d> %? :goodThing:")
+          ("B" "Bad things" entry (file+headline "~/code/orgmode/feats.org" "Bad things")
+           "** %<%Y> \n*** %<%Y-%m-%d> %? :badThing:")
+          ("b" "Buy list" entry (file+headline "~/code/orgmode/todo.org" "Things to buy")
+           "* TODO %? :buyThis:\n - Date: %T")
           )))
 
 ;; Roam the org
@@ -198,3 +204,9 @@
       (erase-buffer)
       (insert document)
       (goto-char (point-min)))))
+
+
+;; Org journal stuff
+(setq org-journal-file-format "%Y_%m_%d.org")
+(setq org-journal-date-format "%A, %Y-%m-%d ")
+(setq org-journal-dir "~/code/orgmode/journals")
