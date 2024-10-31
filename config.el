@@ -39,7 +39,24 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/code/orgmode/")
+;;(setq org-directory
+;;    (cond
+;;    ((string= (system-name) "anomalocarisWin") "/mnt/c/Users/yamifrankc/code/orgmode/")
+;;  (t  "~/code/orgmode/")))
+
+
+
+(setq org-directory
+      (cond
+       ((and (string-equal system-type "gnu/linux")
+             (file-exists-p "/mnt/c"))
+        "/mnt/c/Users/yamifrankc/code/orgmode/")
+       (t "~/code/orgmode"))) ; Default org directory
+
+;; Define function to generate paths inside org-directory
+(defun org-file-path (filename)
+  "Construct the full path to an org file inside `org-directory'."
+  (expand-file-name filename org-directory))
 
 (add-hook 'org-mode-hook
           (lambda () (org-autolist-mode)))
@@ -99,26 +116,26 @@
 ;; Org mode capture templates
 (after! org
   (setq org-capture-templates
-        '(("T" "TODO with link to here" entry (file+headline "~/code/orgmode/todo.org" "Inbox")
+        '(("T" "TODO with link to here" entry (file+headline "todo.org" "Inbox")
            "* TODO %?\n - Date: %T %i %a")
-          ("t" "TODO entry" entry (file+headline "~/code/orgmode/todo.org" "Inbox")
+          ("t" "TODO entry" entry (file+headline "todo.org" "Inbox")
            "* TODO %?\n - Date: %T")
-          ("d" "Dream entry" entry (file+headline "~/code/orgmode/Personal.org" "Dreams")
+          ("d" "Dream entry" entry (file+headline "Personal.org" "Dreams")
            "* %t %?")
-          ("j" "Journal" entry (file+datetree+prompt "~/code/orgmode/journal.org")
+          ("j" "Journal" entry (file+datetree+prompt "journal.org")
            "* %U %?")
-          ("G" "Good things" entry (file+datetree+prompt "~/code/orgmode/feats.org")
+          ("G" "Good things" entry (file+datetree+prompt "feats.org")
            "* %U %?  :goodThing:")
-          ("B" "Bad things" entry (file+datetree+prompt "~/code/orgmode/feats.org")
+          ("B" "Bad things" entry (file+datetree+prompt "feats.org")
            "* %U %?  :badThing:")
-          ("b" "Buy list" entry (file+headline "~/code/orgmode/todo.org" "Things to buy")
+          ("b" "Buy list" entry (file+headline "todo.org" "Things to buy")
            "* TODO %? :buyThis:\n - Date: %T")
           )))
 
 ;; Roam the org
 (after! org
-  (setq org-roam-directory "~/code/orgmode/")
-  (setq org-roam-index-file "~/code/orgmode/index.org"))
+  (setq org-roam-directory "org-file-path")
+  (setq org-roam-index-file "org-file-path index.org"))
 
 ;; Different colors for org-roam and org links
 ;;(custom-set-faces
