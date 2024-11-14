@@ -224,6 +224,68 @@
 
 
 ;; Org journal stuff
+(setq org-journal-file-type 'monthly)
+(setq org-journal-start-on-weekday t)
+(setq org-extend-today-until 4)
 (setq org-journal-file-format "%Y_%m_%d.org")
 (setq org-journal-date-format "%A, %Y-%m-%d ")
-(setq org-journal-dir "~/code/orgmode/journals")
+(setq org-journal-dir
+      (cond
+       ((and (string-equal system-type "gnu/linux")
+             (file-exists-p "/mnt/c"))
+        "/mnt/c/Users/yamifrankc/code/orgmode/journal")
+       (t "~/code/orgmode/journal"))) ; Default org directory
+
+
+
+;; ORG MODERN
+;;(use-package! org-modern
+;;:hook (org-mode . org-modern-mode)
+;;:config
+;; Customize `org-modern` settings here, if needed
+;;(setq org-modern-star '("◉" "○" "◈" "◇" "⁕") ;; example for bullets
+;;    org-modern-hide-stars nil)
+
+
+
+
+;; Function to refile stuff
+(defun yf/refile-tasks-in-mass (status target-file target-heading)
+  "Refile tasks with a specified STATUS from the current org buffer to a TARGET-FILE and place under TARGET-HEADING."
+  (interactive
+   (list (completing-read "Select task status: " '("DONE" "HALT" "NO" "KILL"))
+         (read-file-name "Select target file: ")
+         (read-string "Enter target heading in target file: ")))
+  (when (yes-or-no-p (format "Refile all %s tasks to %s under heading \"%s\"? " status target-file target-heading))
+    (save-excursion
+      (goto-char (point-min))
+      (let ((count 0))
+        (while (re-search-forward (concat "^\\*+ " status " ") nil t)
+          (let ((current-heading (org-element-at-point)))
+            (org-cut-subtree) ;; Cut the subtree for the selected task status
+            (with-current-buffer (find-file-noselect target-file)
+              (goto-char (point-min))
+              ;; Search for the target heading
+              (if (re-search-forward (concat "^\\*+ " (regexp-quote target-heading)) nil t)
+                  (progn
+                    (org-end-of-subtree t t)
+                    (org-paste-subtree)
+                    (setq count (1+ count))
+                    (save-buffer))
+                (message "Heading \"%s\" not found in %s" target-heading target-file))))))
+      (message "Refiled %d tasks with status %s to %s under heading \"%s\"" count status target-file target-heading))))
+
+
+;; Org static blog
+(require 'org-static-blog)
+
+
+(setq org-static-blog-publish-title "Yami Blog")
+(setq org-static-blog-publish-url "https://yamifrankc.com")
+(setq org-static-blog-publish-directory "~/org/blog/output/")
+(setq org-static-blog-posts-directory "~/org/blog/posts/")
+(setq org-static-blog-drafts-directory "~/org/blog/drafts/")
+(setq org-static-blog-enable-tags t)
+
+
+(setq org-static-blog-page-postamble "Caca")
