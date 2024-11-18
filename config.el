@@ -157,6 +157,10 @@
 
 (map! "C-c TAB" #'other-window)
 
+;; Add a new journal entry
+(map! "C-c j n" #'org-journal-new-entry)
+(map! "C-c j s" #'org-journal-search)
+
 ;; Org-journal config stuff
 ;;(after! org
 ;;(setq org-journal-dir "~/code/orgmode/journal/"))

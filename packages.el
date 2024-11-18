@@ -26,7 +26,7 @@
 (package! org-super-agenda)
 
 ;; org modern
-;; (package! org-modern)
+(package! org-modern)
 
 ;;org-static-blog
 (package! org-static-blog)
