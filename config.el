@@ -317,3 +317,51 @@
 <link href= \"static/style.css\" rel=\"stylesheet\" type=\"text/css\" />
 <link rel=\"icon\" href=\"static/favicon.ico\">")
   )
+
+;; Astro Stuff
+(use-package! astro-ts-mode
+  :after treesit-auto)
+
+(use-package! astro-ts-mode
+  :after treesit-auto
+  :init
+  (when (modulep! +lsp)
+    (add-hook 'astro-ts-mode-hook #'lsp! 'append))
+  :config
+  (global-treesit-auto-mode)
+  (let ((astro-recipe (make-treesit-auto-recipe
+                       :lang 'astro
+                       :ts-mode 'astro-ts-mode
+                       :url "https://github.com/virchau13/tree-sitter-astro"
+                       :revision "master"
+                       :source-dir "src")))
+    (add-to-list 'treesit-auto-recipe-list astro-recipe)))
+
+(set-formatter! 'prettier-astro
+  '("npx" "prettier" "--parser=astro"
+    (apheleia-formatters-indent "--use-tabs" "--tab-width" 'astro-ts-mode-indent-offset))
+  :modes '(astro-ts-mode))
+
+;;;; ----------------
+;;;;
+;; WEB MODE
+(use-package web-mode
+  :ensure t)
+
+;; ASTRO
+(define-derived-mode astro-mode web-mode "astro")
+(setq auto-mode-alist
+      (append '((".*\\.astro\\'" . astro-mode))
+              auto-mode-alist))
+
+;; EGLOT
+(use-package eglot
+  :ensure t
+  :config
+  (add-to-list 'eglot-server-programs
+               '(astro-mode . ("astro-ls" "--stdio"
+                               :initializationOptions
+                               (:typescript (:tsdk "./node_modules/typescript/lib")))))
+  :init
+  ;; auto start eglot for astro-mode
+  (add-hook 'astro-mode-hook 'eglot-ensure))

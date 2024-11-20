@@ -18,7 +18,7 @@
 ;; Something to paste images from clipboard in org-mode
 (package! org-download)
 
-
+(package! astro-ts-mode)
 ;; auto list or something
 (package! org-autolist)
 
