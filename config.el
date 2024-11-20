@@ -107,6 +107,7 @@
 
 ;; Enable logging of done ORG task and lof stuff into the LOGBOOK drawer
 (after! org
+  (require 'ox-md)
   (setq org-log-done t)
   (setq org-log-drawer t))
 
@@ -117,9 +118,9 @@
 (after! org
   (setq org-capture-templates
         '(("T" "TODO with link to here" entry (file+headline "todo.org" "Inbox")
-           "* TODO %?\n - Date: %T %i %a")
+           "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n %a")
           ("t" "TODO entry" entry (file+headline "todo.org" "Inbox")
-           "* TODO %?\n - Date: %T")
+           "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n")
           ("d" "Dream entry" entry (file+headline "Personal.org" "Dreams")
            "* %t %?")
           ("j" "Journal" entry (file+datetree+prompt "journal.org")
@@ -130,6 +131,8 @@
            "* %U %?  :badThing:")
           ("b" "Buy list" entry (file+headline "todo.org" "Things to buy")
            "* TODO %? :buyThis:\n - Date: %T")
+          ("r" "Random inbox" entry (file "Inbox.org" )
+           "* %? \n:PROPERTIES:\n:CREATED: %U\n:END:\n")
           )))
 
 ;; Roam the org
@@ -283,13 +286,34 @@
 ;; Org static blog
 (require 'org-static-blog)
 
-
-(setq org-static-blog-publish-title "Yami Blog")
-(setq org-static-blog-publish-url "https://yamifrankc.com")
-(setq org-static-blog-publish-directory "~/org/blog/output/")
-(setq org-static-blog-posts-directory "~/org/blog/posts/")
-(setq org-static-blog-drafts-directory "~/org/blog/drafts/")
-(setq org-static-blog-enable-tags t)
+(defun my-org-static-blog-mailto-comments (post-title)
+  "Generate a mailto: link for comments with the POST-TITLE as the subject."
+  (format "mailto:blog@yamifrankc.com?subject=Re: %s"
+          (url-hexify-string (org-static-blog-get-title post-title))))
 
 
-(setq org-static-blog-page-postamble "Caca")
+(use-package org-static-blog
+  :ensure t
+  :config
+  (setq org-static-blog-publish-title "A CAN Blog")
+  (setq org-static-blog-publish-url "https://orgblogtest.netlify.app")
+  (setq org-static-blog-publish-directory "~/org/blog/output")
+  (setq org-static-blog-posts-directory "~/org/blog/posts/")
+  (setq org-static-blog-drafts-directory "~/org/blog/drafts/")
+  (setq org-static-blog-enable-tags t)
+  (setq org-static-blog-enable-og-tags t)
+  (setq org-static-blog-enable-tag-rss t)
+
+  ;;(setq org-static-blog-post-comments "You like this? Then tomaaaaa")
+  (setq org-static-blog-post-comments
+        (lambda (post-title)
+          (my-org-static-blog-mailto-comments post-title)))
+  ;;(setq org-static-blog-page-postamble "Caca")
+  (setq org-static-blog-index-file "indice.html")
+  (setq org-static-blog-page-header
+        "<meta name=\"author\" content=\"John Dow\">
+<meta name=\"referrer\" content=\"no-referrer\">
+<meta name=\"viewport\" content=\"initial-scale=1,width=device-width,minimum-scale=1\">
+<link href= \"static/style.css\" rel=\"stylesheet\" type=\"text/css\" />
+<link rel=\"icon\" href=\"static/favicon.ico\">")
+  )
